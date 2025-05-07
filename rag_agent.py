@@ -22,7 +22,7 @@ model = OpenAIServerModel(
     # model_id="google/gemini-2.0-flash-001",
     model_id="google/gemini-2.0-flash-lite-preview-02-05:free",
     api_base="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY"),  # 从环境变量中获取 API 密钥
+    api_key=os.getenv("dfdfdfdfdfdf99erefddfd"),  # 从环境变量中获取 API 密钥
 )
 
 
