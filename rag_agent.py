@@ -1,7 +1,4 @@
 from smolagents import ToolCallingAgent, OpenAIServerModel, tool, GradioUI
-from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
-import logging
 import os
 
 
