@@ -22,7 +22,7 @@
             uses: kpantos/dotnet-appcat-action@v5
             with:
               source: 'Solution'
-              path: 'AdventureWorks.Web.csproj'
+              path: 'app/AdventureWorks.sln'
               target: 'ACA'
               privacyMode: 'Unrestricted'
               serializer: 'html'

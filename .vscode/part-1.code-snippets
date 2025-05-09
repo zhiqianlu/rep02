@@ -33,7 +33,7 @@
 			"        \"ms-vscode-remote.remote-containers\",",
 			"        \"zokugun.explicit-folding\",",
 			"        \"GitHub.copilot-labs\",",
-			"        \"zjffun.snippetsmanage\"",
+			"        \"zjffun.snippetsmanager\"",
 			"      ]",
 			"    }",
 			"  },",
@@ -81,7 +81,7 @@
 			"        uses: kpantos/dotnet-appcat-action@v5",
 			"        with:",
 			"          source: 'Solution'",
-			"          path: 'AdventureWorks.sln'",
+			"          path: 'app/AdventureWorks.sln'",
 			"          target: 'ACA'",
 			"          privacyMode: 'Unrestricted'",
 			"          serializer: 'html'"
