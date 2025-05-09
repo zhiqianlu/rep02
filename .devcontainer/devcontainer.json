@@ -27,7 +27,7 @@
         "ms-vscode-remote.remote-containers",
         "zokugun.explicit-folding",
         "GitHub.copilot-labs",
-        "zjffun.snippetsmanage"
+        "zjffun.snippetsmanager"
       ]
     }
   },
