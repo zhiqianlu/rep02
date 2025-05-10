@@ -5,7 +5,7 @@ Once the codespace has initialized succesfuly
 ![](images/upgrade-assistant-01.jpg)
 3. Run the ```upgrade-assistant migrate``` command and follow the wizard steps to perform the upgrade.
 
-4. Once the process finishes run ```dotnet build .``` to build the solution.
+4. Once the process finishes run ```dotnet build AdventureWorks.Web.csproj``` to build the solution.
 
     > **NOTE** The build will fail. A few manual steps are needed to compile  
 
