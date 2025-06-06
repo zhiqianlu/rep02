@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo123
+  namespace: namespace-workflow-1749192193650
+  labels:
+    app.kubernetes.io/name: demo123
+    kubernetes.azure.com/generator: devhub
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: demo123
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
