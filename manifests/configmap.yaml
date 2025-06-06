@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo123-config
+  namespace: namespace-workflow-1749192193650
+  labels:
+    app.kubernetes.io/name: demo123
+    kubernetes.azure.com/generator: devhub
+data:
