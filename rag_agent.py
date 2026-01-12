@@ -41,7 +41,7 @@ def retriever(query:str)->str:
     return combined_results
 
 
-question = "孙悟空有两个师傅,他们分别是谁?"
+question = "孙悟空,他们分别是谁?"
 
 rag_agent_prompt = f"""
 根据你的知识库，回答以下问题。
@@ -58,3 +58,5 @@ agent = ToolCallingAgent(tools=[retriever], model=model, add_base_tools=False)
 agent.run(
     rag_agent_prompt,
 )
+
+
