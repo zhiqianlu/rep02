@@ -1,7 +1,7 @@
 import os
 
 # 输入和输出文件夹路径
-input_folder = '西游记白话文'
+input_folder = '红楼梦白话文'
 output_folder = 'output'
 
 # 确保输出文件夹存在
@@ -32,3 +32,4 @@ for filename in os.listdir(input_folder):
             file.write('\n'.join(lines) + '\n')
 
 print("所有文件已处理并保存到 output 文件夹中。")
+
