@@ -78,6 +78,16 @@ Question:
         return f"抱歉，处理您的问题时出现错误: {str(e)}"
 
 
+def clear_inputs():
+    """
+    清空输入和输出框
+    
+    Returns:
+        Tuple[str, str]: 空字符串元组，用于清空问题输入和答案输出
+    """
+    return "", ""
+
+
 # 创建 Gradio UI
 if __name__ == "__main__":
     import gradio as gr
@@ -131,7 +141,7 @@ if __name__ == "__main__":
         )
         
         clear_btn.click(
-            fn=lambda: ("", ""),
+            fn=clear_inputs,
             inputs=None,
             outputs=[question_input, answer_output]
         )
