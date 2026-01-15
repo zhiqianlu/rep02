@@ -1,5 +1,8 @@
 from smolagents import ToolCallingAgent, OpenAIServerModel, tool, GradioUI
 import os
+import logging
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
 
 
 # 配置日志
@@ -41,9 +44,23 @@ def retriever(query:str)->str:
     return combined_results
 
 
-question = "孙悟空,他们分别是谁?"
+agent = ToolCallingAgent(tools=[retriever], model=model, add_base_tools=False)
 
-rag_agent_prompt = f"""
+
+def answer_question(question: str) -> str:
+    """
+    使用 RAG agent 回答用户问题
+    
+    Args:
+        question: 用户的问题
+        
+    Returns:
+        agent 的回答
+    """
+    if not question or question.strip() == "":
+        return "请输入一个有效的问题。"
+    
+    rag_agent_prompt = f"""
 根据你的知识库，回答以下问题。
 请只回答问题，回答应该简洁且与问题相关。
 如果你无法找到信息，不要放弃，尝试使用不同的参数再次调用你的 retriever 工具。
@@ -52,11 +69,95 @@ rag_agent_prompt = f"""
 
 Question:
 {question}"""
+    
+    try:
+        result = agent.run(rag_agent_prompt)
+        return result
+    except Exception as e:
+        logger.error(f"处理问题时出错: {e}")
+        return f"抱歉，处理您的问题时出现错误: {str(e)}"
 
-agent = ToolCallingAgent(tools=[retriever], model=model, add_base_tools=False)
 
-agent.run(
-    rag_agent_prompt,
-)
+def clear_inputs():
+    """
+    清空输入和输出框
+    
+    Returns:
+        Tuple[str, str]: 空字符串元组，用于清空问题输入和答案输出
+    """
+    return "", ""
+
+
+# 创建 Gradio UI
+if __name__ == "__main__":
+    import gradio as gr
+    
+    # 创建带有自定义样式的 Gradio 界面
+    with gr.Blocks(title="西游记问答系统", theme=gr.themes.Soft()) as demo:
+        gr.Markdown(
+            """
+            # 📚 西游记 RAG 问答系统
+            
+            欢迎使用基于 RAG 技术的西游记智能问答系统！
+            
+            本系统使用向量数据库和 AI 模型，能够回答关于《西游记》的各种问题。
+            """
+        )
+        
+        with gr.Row():
+            with gr.Column(scale=2):
+                question_input = gr.Textbox(
+                    label="💬 请输入您的问题",
+                    placeholder="例如：孙悟空是谁？唐僧师徒四人都有谁？",
+                    lines=3
+                )
+                
+                with gr.Row():
+                    submit_btn = gr.Button("🔍 提交问题", variant="primary", size="lg")
+                    clear_btn = gr.Button("🗑️ 清空", size="lg")
+        
+        with gr.Row():
+            answer_output = gr.Textbox(
+                label="📖 回答",
+                lines=10,
+                placeholder="答案将显示在这里..."
+            )
+        
+        gr.Markdown(
+            """
+            ---
+            ### 📌 使用提示
+            - 问题要具体明确，以便获得更准确的答案
+            - 系统会自动从知识库中检索相关信息
+            - 如果第一次没有得到满意的答案，可以尝试换个方式提问
+            """
+        )
+        
+        # 设置按钮功能
+        submit_btn.click(
+            fn=answer_question,
+            inputs=question_input,
+            outputs=answer_output
+        )
+        
+        clear_btn.click(
+            fn=clear_inputs,
+            inputs=None,
+            outputs=[question_input, answer_output]
+        )
+        
+        # 添加示例问题
+        gr.Examples(
+            examples=[
+                ["孙悟空是谁？"],
+                ["唐僧师徒四人分别是谁？"],
+                ["孙悟空有什么本领？"],
+                ["唐僧为什么要去西天取经？"]
+            ],
+            inputs=question_input
+        )
+    
+    # 启动 Gradio 界面
+    demo.launch(server_name="0.0.0.0", server_port=7860, share=False)
 
 
