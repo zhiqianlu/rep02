@@ -65,7 +65,7 @@ class Task:
     interval_seconds: Optional[int] = None
     priority: TaskPriority = TaskPriority.NORMAL
     status: TaskStatus = TaskStatus.PENDING
-    task_id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
+    task_id: str = field(default_factory=lambda: str(uuid.uuid4())[:16])
     created_at: datetime = field(default_factory=datetime.now)
     last_run: Optional[datetime] = None
     next_run: Optional[datetime] = None
@@ -104,7 +104,7 @@ class Task:
     def from_dict(cls, data: Dict[str, Any]) -> "Task":
         """从字典创建任务对象"""
         return cls(
-            task_id=data.get("task_id", str(uuid.uuid4())[:8]),
+            task_id=data.get("task_id", str(uuid.uuid4())[:16]),
             name=data["name"],
             description=data.get("description", ""),
             scheduled_time=datetime.fromisoformat(data["scheduled_time"]) if data.get("scheduled_time") else None,
@@ -371,7 +371,7 @@ class TaskScheduler:
                 self._task_handlers[task.task_id](task)
             elif task.command:
                 # 执行命令（简单示例，实际应用中需要更安全的处理）
-                logger.info(f"执行命令: {task.command}")
+                logger.info("执行任务命令")
             else:
                 logger.info(f"任务 {task.name} 没有定义执行内容")
 
